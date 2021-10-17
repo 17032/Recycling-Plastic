@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recycled Plastic Quiz</title>
+</head>
+<body>
+    <!-- start Quiz button -->
+    <div class="start_btn"><button>Start Quiz</button></div>
+    <!-- Info Box -->
+        <div class="buttons">
+            <button class="quit">Exit Quiz</button>
+            <button class="restart">Continue</button>
+        </div>
+    <!-- Quiz Box -->
+    <div class="quiz_box">
+        <header>
+            <div class="title">Recycled Plastic Quiz</div>
+        </header>
+        <section>
+            <div class="que_text">
+                <!-- Here I've inserted question from JavaScript -->
+            </div>
+            <div class="option_list">
+                <!-- Here I've inserted options from JavaScript -->
+            </div>
+        </section>
+        <!-- footer of Quiz Box -->
+        <footer>
+            <div class="total_que">
+                <!-- Here I've inserted Question Count Number from JavaScript -->
+            </div>
+            <button class="next_btn">Next Que</button>
+        </footer>
+    </div>
+    <!-- Result Box -->
+    <div class="result_box">
+        <div class="icon">
+            <i class="fas fa-crown"></i>
+        </div>
+        <div class="complete_text">You've completed the Quiz!</div>
+        <div class="score_text">
+            <!-- Here I've inserted Score Result from JavaScript -->
+        </div>
+        <div class="buttons">
+            <button class="restart">Replay Quiz</button>
+            <button class="quit">Quit Quiz</button>
+        </div>
+    </div>
+   
+    <script>
+        // creating an array questions, options, and answers
+let questions = [
+    {
+    numb: 1,
+    question: "Since plastic is melted down when it’s recycled, does it need to be rinsed and emptied before it’s recycled?",
+    answer: "Yes.",
+    options: [
+      "Yes.",
+      "Sometimes, it depends on the plastic.",
+      "Sometimes, it depends on the product.",
+      "No."
+    ]
+  },
+    {
+    numb: 2,
+    question: "Why is it a bad idea to put all your recyclables into a plastic bag?",
+    answer: "All of the above.",
+    options: [
+      "It jams up the machines at recycling centers.",
+      "Plastic bags are usually not accepted in curbside recycling programs.",
+      "Recycling center workers do not know what is in the bag.",
+      "All of the above."
+    ]
+  },
+    {
+    numb: 3,
+    question: " How often is the equivalent of a rubbish truck of plastic dumped into the ocean? ",
+    answer: "One every minute",
+    options: [
+      "One every day",
+      "One every minute",
+      "One every hour",
+      "One every week"
+    ]
+  },
+    {
+    numb: 4,
+    question: " How many different types of plastic are there currently?",
+    answer: "7 types",
+    options: [
+      "2 types",
+      "7 types",
+      "11 types",
+      "14 types"
+    ]
+  },
+    {
+    numb: 5,
+    question: "What do the triangle recycling symbols mean?",
+    answer: "The type of plastic that is used to make the item.",
+    options: [
+      "The item can definitely be recycled.",
+      "The item can go in the compost, recycling and rubbish bin. ",
+      "The type of plastic that is used to make the item.",
+      "It doesn not mean anything."
+    ]
+  },
+    
+  {
+    numb: 6,
+    question: "How quickly can a recycled material be made into a new product and appear back on shelves again?",
+    answer: "1 month",
+    options: [
+      "9 months",
+      "6 months",
+      "3 months",
+      "1 month"
+    ]
+  },
+    
+ {
+    numb: 7,
+    question: "Why is recycling plastic important?",
+    answer: "All of the above.",
+    options: [
+      "Reduces the amount of rubbish going to the landfill.",
+      "Recycling plastics conserves energy and the environment. ",
+      "Keeps still useful materials out of the landfill, which can be made into a new product.",
+      "All of the above."
+    ]
+  },
+    
+];
+        
+        //selecting all required elements
+const start_btn = document.querySelector(".start_btn button");
+const exit_btn = info_box.querySelector(".buttons .quit");
+const continue_btn = info_box.querySelector(".buttons .restart");
+const quiz_box = document.querySelector(".quiz_box");
+const result_box = document.querySelector(".result_box");
+const option_list = document.querySelector(".option_list");
+
+// if startQuiz button clicked
+start_btn.onclick = ()=>{
+    info_box.classList.add("activeInfo"); //show info box
+}
+
+// if exitQuiz button clicked
+exit_btn.onclick = ()=>{
+    info_box.classList.remove("activeInfo"); //hide info box
+}
+
+// if continueQuiz button clicked
+
+let que_count = 0;
+let que_numb = 1;
+let userScore = 0;
+let counter;
+let counterLine;
+let widthValue = 0;
+
+const restart_quiz = result_box.querySelector(".buttons .restart");
+const quit_quiz = result_box.querySelector(".buttons .quit");
+
+// if restartQuiz button clicked
+restart_quiz.onclick = ()=>{
+    quiz_box.classList.add("activeQuiz"); //show quiz box
+    result_box.classList.remove("activeResult"); //hide result box
+    que_count = 0;
+    que_numb = 1;
+    userScore = 0;
+    widthValue = 0;
+    showQuetions(que_count); //calling showQestions function
+    queCounter(que_numb); //passing que_numb value to queCounter
+    clearInterval(counter); //clear counter
+    clearInterval(counterLine); //clear counterLine
+    next_btn.classList.remove("show"); //hide the next button
+}
+
+// if quitQuiz button clicked
+quit_quiz.onclick = ()=>{
+    window.location.reload(); //reload the current window
+}
+
+const next_btn = document.querySelector("footer .next_btn");
+const bottom_ques_counter = document.querySelector("footer .total_que");
+
+// if Next Que button clicked
+next_btn.onclick = ()=>{
+    if(que_count < questions.length - 1){ //if question count is less than total question length
+        que_count++; //increment the que_count value
+        que_numb++; //increment the que_numb value
+        showQuetions(que_count); //calling showQestions function
+        queCounter(que_numb); //passing que_numb value to queCounter
+        clearInterval(counter); //clear counter
+        clearInterval(counterLine); //clear counterLine
+        next_btn.classList.remove("show"); //hide the next button
+    }
+}
+
+// getting questions and options from array
+function showQuetions(index){
+    const que_text = document.querySelector(".que_text");
+
+    //creating a new span and div tag for question and option and passing the value using array index
+    let que_tag = '<span>'+ questions[index].numb + ". " + questions[index].question +'</span>';
+    let option_tag = '<div class="option"><span>'+ questions[index].options[0] +'</span></div>'
+    + '<div class="option"><span>'+ questions[index].options[1] +'</span></div>'
+    + '<div class="option"><span>'+ questions[index].options[2] +'</span></div>'
+    + '<div class="option"><span>'+ questions[index].options[3] +'</span></div>';
+    que_text.innerHTML = que_tag; //adding new span tag inside que_tag
+    option_list.innerHTML = option_tag; //adding new div tag inside option_tag
+    
+    const option = option_list.querySelectorAll(".option");
+
+    // set onclick attribute to all available options
+    for(i=0; i < option.length; i++){
+        option[i].setAttribute("onclick", "optionSelected(this)");
+    }
+}
+// creating the new div tags which for icons
+let tickIconTag = '<div class="icon tick"><i class="fas fa-check"></i></div>';
+let crossIconTag = '<div class="icon cross"><i class="fas fa-times"></i></div>';
+
+
+        </script>
+
+</body>
+</html>
